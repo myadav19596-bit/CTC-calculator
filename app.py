@@ -331,7 +331,7 @@ def build_pdf(d, name, desig, dept, eid, company):
     c.drawString(M, y, "Note:"); y -= 12
     c.setFont(B, 7.8); c.setFillColorRGB(0.2,0.2,0.2)
     pf_note = (f"PF calculated at 12% of Basic Salary (actual)."
-               if d["pf_on_basic"]
+               if d.get("pf_on_basic", False)
                else "PF calculated at 12% of ₹15,000 (statutory cap) = ₹1,800 fixed.")
     notes = [
         f"1. ESIC & Statutory Bonus not eligible if monthly Gross Salary above Rs 21000/-",
@@ -379,7 +379,7 @@ if "d" in st.session_state:
     m2.metric("Annual CTC",    fmt(d["total_ctc"] * 12))
     m3.metric("Net Take-Home", fmt(d["net_take_home"]))
 
-    if d["pf_on_basic"]:
+    if d.get("pf_on_basic", False):
         st.info(f"**PF basis:** 12% of Basic (₹{d['basic']:,}) → Employer PF: {fmt(d['pf_ec'])} / mo | Employee PF: {fmt(d['pf_emp'])} / mo")
 
     st.divider()
